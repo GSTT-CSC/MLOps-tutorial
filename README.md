@@ -32,46 +32,32 @@ This project template makes use of classes and functions provided by the [csc-ml
 pip install csc-mlops
 ```
 
-To run your project once you've set it up following the guidelines below execute the run_project.py script, run the following for usage information.
-```shell 
-python3 run_project.py --help
+### steps temp
+```shell
+python3.9 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
 ```
 
-The first thing to do after cloning this template is to rename the appropriate files and folders to make the directory project specific. 
-The `project` directory should be renamed to make it clear that it contains your project files. 
-
-There are 3 main components that need to be completed after cloning the template:
-
-### 1. `config/config.cfg`
-The config file contains all the information that is used for configuring up the project, experiment, and tracking server. 
-The config file path is passed as an argument to the `Experiment` class where the experiment and tracking are configured. 
-
-Note: The values present in the template config file are the minimum required, be careful not to remove any but adding new ones to help configure parts of your project is encouraged (e.g. entry points).
-
-#### `[entry_points]`
-The entry points defined here allow you to enter the project through different routes. It is necessary to define at least one entry_point called `main`, for example including the line:
+At this point user needs to set up xnat via docker compose and add a new project called "hipposeg"
 ```
-main = python3 train.py
+python data/create_xnat_data.py config/local_config.cfg
 ```
-will run the command `python3 train.py` when the main entry point is requested.
 
-You can specify any number of custom entry points. For example, if you had a script that performed hyperparameter optimisation you might want to trigger that workflow by defining another entry point `optimise = python3 optimisation.py`
-under `main`. Entry points can be selected at runtime by adding the `-e` flag to `run_project` e.g. `python run_project.py -e optimise`.
+- define datamodule
+  - xnat_build_dataset
+  - actions to fetch image and label
+  - set up local interpreter in pycharm
+- add xnat config to train.py and pass to datamodule
 
-### 2. `project/Network.py`
-This file is used to define the pytorch `LightningModule` class.
 
-### 3. `project/DataModule.py`
-This file is used to define the pytorch `LightningDataModule` class.
 
-### 4. Setup GitHub actions
-To run your tests using GithHub actions the `.github/workflows/development_test.yml` and `.github/workflows/production_test.yml` files should be modified.
+### Getting the test data
+This example project uses the Hippocampus segmentation dataset from http://medicaldecathlon.com/.
 
-These workflows use environment variables, defined at the top of the workflow to make testing easier.
+https://drive.google.com/file/d/1RzPB1_bqzQhlWvU-YGvZzhx2omcDh38C/view?usp=share_link
 
-The production tests also use a GitHub secret to authenticate the writing of a gist to store the test coverage badge `auth: ${{ secrets.PYTEST_COVERAGE_COMMENT }}`. GitHub secrets are hidden string variables stored at a repository level, these can be defined in the repository settings.
-
-More information about how the test coverage badge is defined can be found [here](https://github.com/Schneegans/dynamic-badges-action).
 
 ## Contact
 For bug reports and feature requests please raise a GitHub issue on this repository.
