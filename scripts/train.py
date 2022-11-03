@@ -50,7 +50,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 0:
         config_path = sys.argv[1]
     else:
-        config_path = './config/config.cfg'
+        config_path = '../config/config.cfg'
 
     config = configparser.ConfigParser()
     config.read(config_path)

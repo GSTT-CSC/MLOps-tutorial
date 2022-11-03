@@ -119,3 +119,4 @@ dmypy.json
 pytest.xml
 pytest-coverage.txt
 mlruns/
+LOGS/

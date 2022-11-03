@@ -62,9 +62,7 @@ class Network(pytorch_lightning.LightningModule):
         loss = self.loss_function(outputs, labels)
         outputs = [self.post_pred(i) for i in decollate_batch(outputs)]
         labels = [self.post_label(i) for i in decollate_batch(labels)]
-        dice = self.dice_metric(y_pred=outputs, y=labels)
-        self.log('val_loss', loss.item(), on_step=True, on_epoch=True, logger=True, sync_dist=True)
-        self.log('val_DICE', dice.mean().item(), on_step=True, on_epoch=True, logger=True, sync_dist=True)
+        self.dice_metric(y_pred=outputs, y=labels)
         return {"val_loss": loss, "val_number": len(outputs)}
 
     def validation_epoch_end(self, outputs):
@@ -79,13 +77,4 @@ class Network(pytorch_lightning.LightningModule):
             "val_dice": mean_val_dice,
             "val_loss": mean_val_loss,
         })
-        if mean_val_dice > self.best_val_dice:
-            self.best_val_dice = mean_val_dice
-            self.best_val_epoch = self.current_epoch
-        print(
-            f"current epoch: {self.current_epoch} "
-            f"current mean dice: {mean_val_dice:.4f}"
-            f"\nbest mean dice: {self.best_val_dice:.4f} "
-            f"at epoch: {self.best_val_epoch}"
-        )
         return
