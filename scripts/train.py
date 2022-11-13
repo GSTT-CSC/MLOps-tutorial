@@ -13,9 +13,9 @@ from project.util.visualise import plot_inference_test
 
 def train(config):
 
-    test_batch = 10  # set to > 0 when you want a subset of the data for testing of size test_batch samples
-    n_epochs = 2
-    batch_size = 4
+    test_batch = 0  # set to > 0 when you want a subset of the data for testing of size test_batch samples
+    n_epochs = 60
+    batch_size = 16
     n_gpu = 4
 
     xnat_configuration = {'server': config['xnat']['SERVER'],
