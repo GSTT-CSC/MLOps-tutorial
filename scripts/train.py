@@ -10,9 +10,10 @@ from pytorch_lightning.loggers import MLFlowLogger
 
 def train(config):
 
-    test_batch = 10  # set to > 0 when you want a subset of the data for testing of size test_batch samples
-    n_epochs = 3
-    batch_size = 4
+    test_batch = -1  # set to > 0 when you want a subset of the data for testing of size test_batch samples
+    n_epochs = 50
+    batch_size = 16
+    n_gpu = 4
 
     xnat_configuration = {'server': config['xnat']['SERVER'],
                           'user': config['xnat']['USER'],
@@ -35,7 +36,7 @@ def train(config):
 
         trainer = pl.Trainer(logger=mlf_logger,
                              precision=16 if cuda_available() else 32,
-                             gpus=4 if cuda_available() else None,
+                             gpus=n_gpu if cuda_available() else None,
                              max_epochs=n_epochs,
                              log_every_n_steps=1,
                              strategy="ddp" if cuda_available() else None,
