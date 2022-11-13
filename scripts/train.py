@@ -13,8 +13,8 @@ from project.util.visualise import plot_inference_test
 
 def train(config):
 
-    test_batch = 6  # set to > 0 when you want a subset of the data for testing of size test_batch samples
-    n_epochs = 1
+    test_batch = 0  # set to > 0 when you want a subset of the data for testing of size test_batch samples
+    n_epochs = 50
     batch_size = 16
     n_gpu = 4
 
