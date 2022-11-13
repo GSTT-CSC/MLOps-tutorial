@@ -1,18 +1,21 @@
-import pytorch_lightning as pl
-from project.Network import Network
-from project.DataModule import DataModule
-import mlflow
-from torch.cuda import is_available as cuda_available
-import sys
 import configparser
+import sys
+
+import mlflow
+import pytorch_lightning as pl
 from pytorch_lightning.loggers import MLFlowLogger
+from torch.cuda import is_available as cuda_available
+
+from project.DataModule import DataModule
+from project.Network import Network
+from project.util.visualise import plot_inference_test
 
 
 def train(config):
 
-    test_batch = -1  # set to > 0 when you want a subset of the data for testing of size test_batch samples
-    n_epochs = 50
-    batch_size = 16
+    test_batch = 10  # set to > 0 when you want a subset of the data for testing of size test_batch samples
+    n_epochs = 2
+    batch_size = 4
     n_gpu = 4
 
     xnat_configuration = {'server': config['xnat']['SERVER'],
@@ -44,6 +47,8 @@ def train(config):
                              )
 
         trainer.fit(net, dm)
+
+        plot_inference_test(net, dm)
 
 
 if __name__ == '__main__':
