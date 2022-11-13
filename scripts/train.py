@@ -10,8 +10,8 @@ from pytorch_lightning.loggers import MLFlowLogger
 
 def train(config):
 
-    test_batch = 10  # set to >0 when you want a subest of the data for testing of size test_batch samples
-    n_epochs = 5
+    test_batch = 10  # set to > 0 when you want a subset of the data for testing of size test_batch samples
+    n_epochs = 3
     batch_size = 4
 
     xnat_configuration = {'server': config['xnat']['SERVER'],

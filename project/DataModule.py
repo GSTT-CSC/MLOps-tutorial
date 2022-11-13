@@ -10,7 +10,7 @@ from monai.transforms import (
     LoadImage,
     CropForegroundd,
     Orientationd,
-    ScaleIntensityRanged,
+    ScaleIntensityd,
     Spacingd,
 )
 from torch.cuda import is_available
@@ -46,22 +46,36 @@ class DataModule(pytorch_lightning.LightningDataModule):
 
         self.train_samples, self.valid_samples = random_split(self.xnat_data_list, [1-self.train_val_ratio, self.train_val_ratio])
 
-        self.transforms = Compose(
+        self.train_transforms = Compose(
             [
                 LoadImageXNATd(keys=['data'], xnat_configuration=self.xnat_configuration,
                                image_loader=LoadImage(image_only=True), expected_filetype_ext='.nii.gz'),
                 EnsureChannelFirstd(keys=["image", "label"]),
-                # Orientationd(keys=["image", "label"], axcodes="RAS"),
-                # # ScaleIntensityRanged(
-                # #     keys=["image"], a_min=-57, a_max=164,
-                # #     b_min=0.0, b_max=1.0, clip=True,
-                # # ),
-                # # CropForegroundd(keys=["image", "label"], source_key="image"),
+                Spacingd(
+                    keys=["image", "label"],
+                    pixdim=(1.5, 1.5, 2.0),
+                    mode=("bilinear", "nearest"),
+                ),
+                ScaleIntensityd(keys=["image"], minv=0.0, maxv=1.0),
             ]
         )
 
-        self.train_dataset = CacheDataset(data=self.train_samples, transform=self.transforms)
-        self.val_dataset = CacheDataset(data=self.valid_samples, transform=self.transforms)
+        self.val_transforms = Compose(
+            [
+                LoadImageXNATd(keys=['data'], xnat_configuration=self.xnat_configuration,
+                               image_loader=LoadImage(image_only=True), expected_filetype_ext='.nii.gz'),
+                EnsureChannelFirstd(keys=["image", "label"]),
+                Spacingd(
+                    keys=["image", "label"],
+                    pixdim=(1.5, 1.5, 2.0),
+                    mode=("bilinear", "nearest"),
+                ),
+                ScaleIntensityd(keys=["image"], minv=0.0, maxv=1.0),
+            ]
+        )
+
+        self.train_dataset = CacheDataset(data=self.train_samples, transform=self.train_transforms)
+        self.val_dataset = CacheDataset(data=self.valid_samples, transform=self.val_transforms)
 
     def prepare_data(self, *args, **kwargs):
         pass

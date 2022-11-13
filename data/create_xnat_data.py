@@ -44,7 +44,7 @@ def upload_nifti_dataset_xnat(config_path, data_root_dir):
 
         for subject, data_i in enumerate(data_content['training']):
 
-            subject = str(subject)
+            subject = str(subject).zfill(4)
 
             # if Subject does not create new experiment
             if subject in project.subjects:

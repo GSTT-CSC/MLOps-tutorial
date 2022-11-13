@@ -43,7 +43,9 @@ class Network(pytorch_lightning.LightningModule):
         return self._model(x)
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(self._model.parameters(), 1e-4)
+        optimizer = torch.optim.AdamW(
+            self._model.parameters(), lr=1e-4, weight_decay=1e-5
+        )
         return optimizer
 
     def training_step(self, batch, batch_idx):
@@ -74,7 +76,7 @@ class Network(pytorch_lightning.LightningModule):
         self.dice_metric.reset()
         mean_val_loss = torch.tensor(val_loss / num_items)
         self.log_dict({
-            "val_dice": mean_val_dice,
-            "val_loss": mean_val_loss,
+            "mean_val_dice": mean_val_dice,
+            "mean_val_loss": mean_val_loss,
         })
         return
