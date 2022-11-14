@@ -14,8 +14,8 @@ from project.util.visualise import plot_inference_test
 def train(config):
 
     test_batch = 10  # set to > 0 when you want a subset of the data for testing of size test_batch samples
-    n_epochs = 2
-    batch_size = 16
+    max_epochs = 1
+    batch_size = 4
     n_gpu = 4
     log_torchscript = True
 
@@ -41,8 +41,9 @@ def train(config):
         trainer = pl.Trainer(logger=mlf_logger,
                              precision=16 if cuda_available() else 32,
                              gpus=n_gpu if cuda_available() else None,
-                             max_epochs=n_epochs,
+                             max_epochs=max_epochs,
                              log_every_n_steps=1,
+                             fast_dev_run=config.getboolean('system', 'DEV'),
                              strategy="ddp" if cuda_available() else None,
                              accelerator="gpu" if cuda_available() else None,
                              )
