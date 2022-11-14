@@ -13,10 +13,11 @@ from project.util.visualise import plot_inference_test
 
 def train(config):
 
-    test_batch = 0  # set to > 0 when you want a subset of the data for testing of size test_batch samples
-    n_epochs = 50
+    test_batch = 10  # set to > 0 when you want a subset of the data for testing of size test_batch samples
+    n_epochs = 2
     batch_size = 16
     n_gpu = 4
+    log_torchscript = True
 
     xnat_configuration = {'server': config['xnat']['SERVER'],
                           'user': config['xnat']['USER'],
@@ -49,6 +50,9 @@ def train(config):
         trainer.fit(net, dm)
 
         plot_inference_test(net, dm)
+        if log_torchscript:
+            scripted_model = net.to_torchscript(file_path='model.ts')
+            mlflow.pytorch.log_model(scripted_model, "model")
 
 
 if __name__ == '__main__':

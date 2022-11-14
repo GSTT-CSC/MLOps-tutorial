@@ -33,8 +33,8 @@ class Network(pytorch_lightning.LightningModule):
             norm=Norm.BATCH,
         )
         self.loss_function = DiceLoss(to_onehot_y=True, softmax=True)
-        self.post_pred = Compose([EnsureType("tensor", device="cpu"), AsDiscrete(argmax=True, to_onehot=3)])
-        self.post_label = Compose([EnsureType("tensor", device="cpu"), AsDiscrete(to_onehot=3)])
+        self.post_pred = Compose([EnsureType("tensor", device=torch.device("cpu")), AsDiscrete(argmax=True, to_onehot=3)])
+        self.post_label = Compose([EnsureType("tensor", device=torch.device("cpu")), AsDiscrete(to_onehot=3)])
         self.dice_metric = DiceMetric(include_background=False, reduction="mean", get_not_nans=False)
         self.best_val_dice = 0
         self.best_val_epoch = 0
@@ -58,7 +58,7 @@ class Network(pytorch_lightning.LightningModule):
     def validation_step(self, batch, batch_idx):
         images, labels = batch["image"], batch["label"]
         roi_size = (-1, -1, -1)
-        sw_batch_size = 4
+        sw_batch_size = 1
         outputs = sliding_window_inference(
             images, roi_size, sw_batch_size, self.forward)
         loss = self.loss_function(outputs, labels)

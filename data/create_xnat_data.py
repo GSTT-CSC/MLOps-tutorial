@@ -51,8 +51,11 @@ def upload_nifti_dataset_xnat(config_path, data_root_dir):
                 xnat_subject = project.subjects[subject]
             else:
                 xnat_subject = session.classes.SubjectData(parent=project, label=subject)
+                xnat_subject.fields['test_api'] = 'didthiswork'
+                # curl request for adding fields - e.g. 'handedness'='r'
+                # curl -X PUT "http://localhost:80/REST/projects/hipposeg2/subjects/0000/" --data "xnat:subjectData/fields/field[name%3Dhandedness]/field=r" -u admin:admin
 
-            # if experiment does not create new experiment
+            #  if experiment does not create new experiment
             experiment = f'{subject}_exp'
             if experiment in xnat_subject.experiments:
                 xnat_experiment = xnat_subject.experiments[experiment]
