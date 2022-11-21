@@ -71,6 +71,10 @@ python data/create_xnat_data.py config/local_config.cfg
 
 The data should now be visible in your xnat project when accessed through the browser.
 
+
+![img.png](assets/img.png)
+
+
 ### run the training
 You should now be ready to perform local training on the dataset using the MLOps framework. 
 ```shell
@@ -79,8 +83,10 @@ mlops run scripts/train.py -c config/local_config.cfg --ignore_git_check
 
 This will build a docker container to run the project in, this may take some time if its the first time you're running the project. It will then run the entrypoint (scripts/train.py) using the specified config file (config/local_config.cfg).
 
-One training is in progress/complete you can view the logged metrics in the mlflow interface http://localhost:85
+One training is in progress/complete you can view the logged metrics such as training loss and validation DICE score in the mlflow interface http://localhost:85
 
+
+![img_1.png](assets/img_1.png)
 ## Contact
 For bug reports and feature requests please raise a GitHub issue on this repository.
 
