@@ -18,45 +18,51 @@ A framework for AI applications for healthcare
 # New project template
 
 ## Introduction
-This repository contains a skeleton project template for use with new projects using the [csc-mlops](https://github.com/GSTT-CSC/MLOps.git) development platform. The template provides a starting point with helper classes and functions to facilitate rapid development and deployment of applications.
+This repository contains an example project using the [csc-mlops](https://github.com/GSTT-CSC/MLOps.git) development platform. 
 
-## Structure
-At a minimum users should use the `Experiment` class and the provided `run_project.py` script to set up their experiment.
-This template suggests using pytorch-lightning and MONAI for network configuration and DataModules. 
-However, this is not strictly necessary and provided the Dockerfile GPU libraries are adapted and the `run_project` function is used then tracking can be performed with any [MLflow compatible framework](https://mlflow.org/docs/latest/tracking.html#automatic-logging).
+The example demonstrates how developers can use the csc-mlops XNAT interface, pytorch lightning, and MONAI, to segment the anterior and posterior hippocampus from a brain MRI data.
+
+Future updates will demonstrate:
+  - application packaging
+  - performance over demographics 
 
 ## Getting started
-This project template makes use of classes and functions provided by the [csc-mlops](https://github.com/GSTT-CSC/MLOps.git) package, installing this to your local environment is easy with pip:
+This example project uses the Hippocampus segmentation dataset from http://medicaldecathlon.com/.
 
+
+### requirements
+Docker and docker compose must be setup on your system, as well as >=python3.9
+
+### Setup XNAT and MLOps servers
 ```shell
-pip install csc-mlops
+git clone https://github.com/NrgXnat/xnat-docker-compose.git xnat-docker-compose
+cd xnat-docker-compose
+docker compose up -d --build
+
+cd ..
+
+git clone https://github.com/GSTT-CSC/MLOps.git MLOps
+cd MLOps/mlflow_server
+docker compose up -d --build
+
+cd ..
+docker ps
 ```
 
-### steps temp
+If you view running docker containers with `docker ps` you should now see several entries showing the MLOps and xnat stacks, ensure no services display the "unhealthy" status before continuing.
+
+
+### Clone this repository and setup virtual environment
 ```shell
-python3.9 -m venv venv
-source venv/bin/activate
+git clone https://github.com/GSTT-CSC/MLOps-tutorial.git MLOps-tutorial
+cd MLOps-tutorial
+python3 -m venv ../mlops-venv
+source ../mlops-venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-At this point user needs to set up xnat via docker compose and add a new project called "hipposeg"
-```
-python data/create_xnat_data.py config/local_config.cfg
-```
-
-- define datamodule
-  - xnat_build_dataset
-  - actions to fetch image and label
-  - set up local interpreter in pycharm
-- add xnat config to train.py and pass to datamodule
-
-
-
-### Getting the test data
-This example project uses the Hippocampus segmentation dataset from http://medicaldecathlon.com/.
-
-https://drive.google.com/file/d/1RzPB1_bqzQhlWvU-YGvZzhx2omcDh38C/view?usp=share_link
+### 
 
 
 ## Contact

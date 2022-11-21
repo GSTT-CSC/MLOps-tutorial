@@ -39,13 +39,13 @@ def train(config):
         )
 
         trainer = pl.Trainer(logger=mlf_logger,
+                             auto_select_gpus=True,
                              precision=16 if cuda_available() else 32,
-                             gpus=n_gpu if cuda_available() else None,
+                             accelerator='gpu' if cuda_available() else None,
+                             devices=n_gpu if cuda_available() else None,
                              max_epochs=max_epochs,
                              log_every_n_steps=1,
-                             fast_dev_run=config.getboolean('system', 'DEV'),
                              strategy="ddp" if cuda_available() else None,
-                             accelerator="gpu" if cuda_available() else None,
                              )
 
         trainer.fit(net, dm)
