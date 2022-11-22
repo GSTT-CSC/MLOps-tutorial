@@ -43,6 +43,8 @@ cd ..
 git clone https://github.com/GSTT-CSC/MLOps.git MLOps
 cd MLOps/mlflow_server
 mv default.env .env 
+mkdir -p ~/MLOps_data/mlflow_db
+mkdir -p ~/MLOps_data/mlflow_minio
 docker compose up -d --build
 
 cd ..
