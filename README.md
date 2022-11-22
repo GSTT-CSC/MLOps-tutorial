@@ -53,7 +53,9 @@ docker ps
 
 If you view running docker containers with `docker ps` you should now see several entries showing the MLOps and xnat stacks, ensure no services display the "unhealthy" status before continuing.
 
-Now that XNAT is running locally you need to create the project we'll be working with. To do this go to http://localhost in a browser window and login with the credentials admin:admin. After logging in you should be able to create a project by navigating to "new">"Project" in the top menu make sure that the Project ID field is "hipposeg".. 
+Now that XNAT is running locally you need to create the project we'll be working with. To do this go to http://localhost in a browser window and login with the credentials admin:admin. If this is your first time logging in, scroll to the bottom and press Save All to accept the default settings. 
+
+After logging in you should be able to create a project by navigating to "new">"Project" in the top menu make sure that the Project ID field is "hipposeg".. 
 
 > Ensure that the Project ID field matches the name given in your config file if you call it something different.
 
