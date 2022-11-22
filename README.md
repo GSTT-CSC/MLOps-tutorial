@@ -42,6 +42,7 @@ cd ..
 
 git clone https://github.com/GSTT-CSC/MLOps.git MLOps
 cd MLOps/mlflow_server
+mv default.env .env 
 docker compose up -d --build
 
 cd ..
