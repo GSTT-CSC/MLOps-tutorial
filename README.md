@@ -35,6 +35,7 @@ Docker and docker compose must be setup on your system, as well as >=python3.9
 ```shell
 git clone https://github.com/NrgXnat/xnat-docker-compose.git xnat-docker-compose
 cd xnat-docker-compose
+mv default.env .env
 docker compose up -d --build
 
 cd ..
