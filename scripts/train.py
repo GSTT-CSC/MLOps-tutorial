@@ -13,7 +13,7 @@ from project.util.visualise import plot_inference_test
 
 def train(config):
 
-    test_batch = 10  # set to > 0 when you want a subset of the data for testing of size test_batch samples
+    test_batch = 20  # set to > 0 when you want a subset of the data for testing of size test_batch samples
     max_epochs = 1
     batch_size = 4
     n_gpu = 4
@@ -32,6 +32,7 @@ def train(config):
     print('Starting logged run')
     mlflow.pytorch.autolog(log_models=False)
     with mlflow.start_run(run_name='training') as run:
+        print(f'Artifact location: {mlflow.get_artifact_uri()}')
         mlf_logger = MLFlowLogger(
             experiment_name=mlflow.get_experiment(mlflow.active_run().info.experiment_id).name,
             tracking_uri=mlflow.get_tracking_uri(),
@@ -54,6 +55,8 @@ def train(config):
         if log_torchscript:
             scripted_model = net.to_torchscript(file_path='model.ts')
             mlflow.pytorch.log_model(scripted_model, "model")
+
+        print(f'Artifact location: {mlflow.get_artifact_uri()}')
 
 
 if __name__ == '__main__':

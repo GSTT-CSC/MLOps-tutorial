@@ -21,3 +21,6 @@ minio==7.0.4
 openpyxl
 torchmetrics
 nibabel
+monai-deploy-app-sdk
+scikit-image
+highdicom
