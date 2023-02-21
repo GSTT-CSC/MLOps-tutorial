@@ -7,7 +7,7 @@ on:
   pull_request:
 
 env:
-  PROJECT_NAME: template  # the project name
+  PROJECT_NAME: hipposeg  # the project name
   APPLICATION_DIR: project  # the name of the main directory that contains the project code
   TEST_DIR: tests  # the name of the directory that contains the tests
 
