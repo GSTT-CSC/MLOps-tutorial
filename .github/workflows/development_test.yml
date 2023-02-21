@@ -8,7 +8,8 @@ on:
 
 env:
   PROJECT_NAME: hipposeg  # the project name
-  APPLICATION_DIR: project  # the name of the main directory that contains the project code
+  APP_DIR: project
+  SOURCE_DIR: project  # the name of the main directory that contains the project code
   TEST_DIR: tests  # the name of the directory that contains the tests
 
 jobs:
@@ -30,13 +31,13 @@ jobs:
       - name: Lint with flake8
         run: |
           # stop the build if there are Python syntax errors or undefined names
-          docker run --mount type=bind,source=$(pwd),target=/$APPLICATION_DIR $PROJECT_NAME flake8 /project/$APPLICATION_DIR --count --select=E9,F63,F7,F82 --show-source --statistics
+          docker run --mount type=bind,source=$(pwd),target=/$APP_DIR $PROJECT_NAME flake8 $SOURCE_DIR --count --select=E9,F63,F7,F82 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-          docker run --mount type=bind,source=$(pwd),target=/$APPLICATION_DIR $PROJECT_NAME flake8 /project/$APPLICATION_DIR --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+          docker run --mount type=bind,source=$(pwd),target=/$APP_DIR $PROJECT_NAME flake8 $SOURCE_DIR --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
       - name: Test with pytest
         run: |
-          docker run --mount type=bind,source=$(pwd),target=/$APPLICATION_DIR $PROJECT_NAME coverage run -m --source=project pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=$APPLICATION_DIR $TEST_DIR/ | tee pytest-coverage.txt
+          docker run --mount type=bind,source=$(pwd),target=/$APP_DIR  $PROJECT_NAME coverage run -m --source=$SOURCE_DIR pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=$SOURCE_DIR $TEST_DIR/ | tee pytest-coverage.txt
 
       - name: Pytest coverage comment
         id: coverageComment
