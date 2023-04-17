@@ -122,3 +122,4 @@ mlruns/
 LOGS/
 ./MLproject
 *.ts
+/idea/

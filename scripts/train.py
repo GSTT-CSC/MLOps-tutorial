@@ -39,7 +39,6 @@ def train(config):
         )
 
         trainer = pl.Trainer(logger=mlf_logger,
-                             auto_select_gpus=True,
                              precision=16 if cuda_available() else 32,
                              accelerator='gpu' if cuda_available() else None,
                              devices=n_gpu if cuda_available() else None,

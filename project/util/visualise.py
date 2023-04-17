@@ -3,7 +3,6 @@ import torch
 import itertools
 import random
 import mlflow
-from mlops.utils.logger import logger
 import numpy as np
 from monai.inferers import sliding_window_inference
 
