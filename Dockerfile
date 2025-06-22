@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:latest
+FROM python:3.10-slim
 
 WORKDIR /project
 
@@ -10,6 +10,6 @@ ENV PYTHONPATH="/mlflow/projects/code/:$PYTHONPATH"
 
 COPY . .
 
-# install requirements
+# install requirements with compatible versions
 RUN python -m pip install --upgrade pip &&  \
     python -m pip install -r requirements.txt
