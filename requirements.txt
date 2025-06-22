@@ -1,16 +1,16 @@
-pytorch_lightning
-mlflow==2.0.1
+pytorch-lightning==2.5.1
+mlflow==2.10.0
 protobuf~=3.19.0 # temporary solution to avoid breaking changes made to 3rd party streamlit (necessary for mlflow) https://discuss.streamlit.io/t/typeerror-descriptors-cannot-not-be-created-directly/25639
-csc-mlops
-numpy
-torchvision
+csc-mlops==0.9.23
+numpy==1.26.4
+torch==2.1.2
+torchvision==0.16.2
 monai
 itk
 tqdm
 pandas
 matplotlib
 xnat
-boto3
 docker
 pytest
 fsspec
